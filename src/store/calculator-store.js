@@ -1,9 +1,19 @@
 import { observable, computed } from 'mobx';
 
 export default class CalculatorStore {
-  @observable number = 0;
-  add(val) {
-    this.number = this.number + parseInt(val, 10)
+  @observable currentNumber = 0;
+  @observable calculation = '';
+  @computed get currentCalculation() {
+    return `${this.currentNumber} ${this.calculation}`
+  }
+
+  calculate() {
+    this.currentNumber = eval(this.calculation);
+    this.calculation = '';
+  };
+
+  updateCalculation(val) {
+    this.calculation = this.calculation + val;
   };
 }
 

@@ -1,0 +1,20 @@
+.button {
+  width: 30%; 
+}
+
+.center {
+  text-align: center;
+}
+
+.mainContainer {
+  position: relative;
+}
+
+.buttonContainer {
+  position: absolute;
+  width: 50%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto; 
+}

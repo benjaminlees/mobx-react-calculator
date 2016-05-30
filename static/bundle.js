@@ -22131,6 +22131,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var styles = require('./styles.css');
+
 var Calculator = (0, _mobxReact.observer)(_class = function (_React$Component) {
   _inherits(Calculator, _React$Component);
 
@@ -22143,25 +22145,57 @@ var Calculator = (0, _mobxReact.observer)(_class = function (_React$Component) {
   _createClass(Calculator, [{
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       var calculator = this.props.calculator;
 
+      var numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
       return _react2.default.createElement(
         'div',
-        null,
+        { className: styles.mainContainer },
         _react2.default.createElement(
           'div',
-          null,
-          calculator.number
-        ),
-        _react2.default.createElement('input', { ref: 'num' }),
-        _react2.default.createElement(
-          'button',
-          { onClick: function onClick() {
-              return calculator.add(_this2.refs.num.value);
-            } },
-          'add'
+          { className: styles.buttonContainer },
+          _react2.default.createElement(
+            'div',
+            { className: styles.center },
+            calculator.currentCalculation
+          ),
+          numbers.map(function (val, i) {
+            return _react2.default.createElement(
+              'button',
+              { className: styles.button, key: i, onClick: function onClick() {
+                  return calculator.updateCalculation(val);
+                } },
+              val
+            );
+          }),
+          _react2.default.createElement(
+            'button',
+            { className: styles.button, onClick: function onClick() {
+                return calculator.updateCalculation('+');
+              } },
+            '+'
+          ),
+          _react2.default.createElement(
+            'button',
+            { className: styles.button, onClick: function onClick() {
+                return calculator.updateCalculation('-');
+              } },
+            '-'
+          ),
+          _react2.default.createElement(
+            'button',
+            { className: styles.button, onClick: function onClick() {
+                return calculator.updateCalculation('/');
+              } },
+            '/'
+          ),
+          _react2.default.createElement(
+            'button',
+            { className: styles.button, onClick: function onClick() {
+                calculator.calculate();
+              } },
+            'Ext'
+          )
         )
       );
     }
@@ -22174,7 +22208,7 @@ var store = new _calculatorStore2.default();
 var node = document.getElementById('main');
 _reactDom2.default.render(_react2.default.createElement(Calculator, { calculator: store }), node);
 
-},{"../src/store/calculator-store.js":171,"mobx-react":27,"react":169,"react-dom":31}],171:[function(require,module,exports){
+},{"../src/store/calculator-store.js":171,"./styles.css":172,"mobx-react":27,"react":169,"react-dom":31}],171:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -22184,7 +22218,7 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _desc, _value, _class, _descriptor;
+var _desc, _value, _class, _descriptor, _descriptor2;
 
 var _mobx = require('mobx');
 
@@ -22237,23 +22271,43 @@ var CalculatorStore = (_class = function () {
   function CalculatorStore() {
     _classCallCheck(this, CalculatorStore);
 
-    _initDefineProp(this, 'number', _descriptor, this);
+    _initDefineProp(this, 'currentNumber', _descriptor, this);
+
+    _initDefineProp(this, 'calculation', _descriptor2, this);
   }
 
   _createClass(CalculatorStore, [{
-    key: 'add',
-    value: function add(val) {
-      this.number = this.number + parseInt(val, 10);
+    key: 'calculate',
+    value: function calculate() {
+      this.currentNumber = eval(this.calculation);
+      this.calculation = '';
+    }
+  }, {
+    key: 'updateCalculation',
+    value: function updateCalculation(val) {
+      this.calculation = this.calculation + val;
+    }
+  }, {
+    key: 'currentCalculation',
+    get: function get() {
+      return this.currentNumber + ' ' + this.calculation;
     }
   }]);
 
   return CalculatorStore;
-}(), (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'number', [_mobx.observable], {
+}(), (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'currentNumber', [_mobx.observable], {
   enumerable: true,
   initializer: function initializer() {
     return 0;
   }
-})), _class);
+}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, 'calculation', [_mobx.observable], {
+  enumerable: true,
+  initializer: function initializer() {
+    return '';
+  }
+}), _applyDecoratedDescriptor(_class.prototype, 'currentCalculation', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'currentCalculation'), _class.prototype)), _class);
 exports.default = CalculatorStore;
 
-},{"mobx":28}]},{},[170]);
+},{"mobx":28}],172:[function(require,module,exports){
+module.exports = {"button":"_src_styles__button","center":"_src_styles__center","mainContainer":"_src_styles__mainContainer","buttonContainer":"_src_styles__buttonContainer"}
+},{}]},{},[170]);

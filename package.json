@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node_modules/.bin/watchify src/main.jsx -o static/bundle.js"
+    "dev": "node_modules/.bin/watchify -p [ css-modulesify -o static/main.css ] src/main.jsx -o static/bundle.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "browserify": "^13.0.1",
+    "css-modulesify": "^0.24.0",
     "mobx": "^2.2.1",
     "mobx-react": "^3.3.0",
     "react": "^15.1.0",
